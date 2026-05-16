@@ -1,0 +1,17 @@
+# Laravel
+web/.env
+web/vendor/
+web/node_modules/
+web/storage/logs/*
+web/storage/framework/cache/*
+web/storage/framework/sessions/*
+web/storage/framework/views/*
+web/bootstrap/cache/*
+
+# Docker
+devops/docker/mysql/
+devops/docker/postgres/
+
+# Sistema
+.DS_Store
+Thumbs.db
