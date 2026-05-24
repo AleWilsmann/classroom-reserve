@@ -5,14 +5,14 @@ services:
       context: .
       dockerfile: docker/php/Dockerfile
     volumes:
-      - /root/classroom-reserve/web:/var/www
+      - ../web:/var/www
 
   nginx:
     image: nginx:alpine
     ports:
       - "8080:80"
     volumes:
-      - /root/classroom-reserve/web:/var/www
+      - ../web:/var/www
       - ./docker/nginx/conf.d:/etc/nginx/conf.d
     depends_on:
       - php
