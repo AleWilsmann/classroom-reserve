@@ -508,10 +508,14 @@
         Financeiro
     </a>
 
-    <!-- Substitua o nav-item de Salas de Aula por este bloco -->
+    <!-- Menu de Salas de Aula com accordion -->
 <div class="nav-item nav-accordion" onclick="toggleAccordion(this)">
     <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+        <path d="M3 6h18v12H3z"/>
+        <path d="M3 10h18"/>
+        <path d="M8 21h8"/>
+        <path d="M10 18v3"/>
+        <path d="M14 18v3"/>
     </svg>
     Salas de Aula
     <svg class="accordion-arrow" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="margin-left:auto;width:14px;height:14px;transition:transform .25s;">
@@ -519,26 +523,41 @@
     </svg>
 </div>
 <div class="accordion-menu">
-    <a href="#" class="nav-sub-item">
+    <a href="{{ route('rooms.index') }}" class="nav-sub-item">
         <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="width:14px;height:14px;">
             <rect x="3" y="3" width="18" height="18" rx="2"/>
             <path d="M3 9h18"/>
         </svg>
         Ver Salas
     </a>
-    <a href="#" class="nav-sub-item">
-        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="width:14px;height:14px;">
-            <circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/>
-        </svg>
-        Reservas
-    </a>
-    <a href="#" class="nav-sub-item">
+    <a href="{{ route('rooms.create') }}" class="nav-sub-item">
         <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="width:14px;height:14px;">
             <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
         </svg>
         Nova Sala
     </a>
 </div>
+
+<!-- Menu de Responsáveis -->
+<a href="{{ route('responsibles.index') }}" class="nav-item">
+    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+        <circle cx="9" cy="7" r="4"/>
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+    </svg>
+    Responsáveis
+</a>
+
+<a href="{{ route('reservations.index') }}" class="nav-item">
+    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path d="M3 6h18v12H3z"/>
+        <path d="M3 10h18"/>
+        <path d="M8 21h8"/>
+        <path d="M10 18v3"/>
+        <path d="M14 18v3"/>
+    </svg>
+    Reservas
+</a>
 
     <div class="sidebar-footer">
         <div class="user-chip">
@@ -694,19 +713,26 @@
             <div>
                 <div class="quick-title">Ações Rápidas</div>
                 <div class="quick-actions">
-                    <button class="quick-btn primary">
+                    <a href="{{ route('rooms.create') }}" class="quick-btn primary" style="text-decoration: none;">
                         <div class="stat-icon">
                         <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path d="M3 6h18v12H3z"/>
-                            <path d="M3 10h18"/>
-                            <path d="M8 21h8"/>
-                            <path d="M10 18v3"/>
-                            <path d="M14 18v3"/>
+                            <line x1="12" y1="5" x2="12" y2="19"/>
+                            <line x1="5" y1="12" x2="19" y2="12"/>
                         </svg>
                         </div>
-                        Reservar sala
-                    </button>
-                    <button class="quick-btn secondary">
+                        Cadastrar Sala
+                    </a>
+                    <a href="{{ route('responsibles.create') }}" class="quick-btn secondary" style="text-decoration: none;">
+                          <div class="stat-icon">
+                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
+                        </div>
+                        Cadastrar Responsável
+                    </a>
+                        <a href="{{ route('rooms.index') }}" class="quick-btn secondary" style="text-decoration: none;">
                           <div class="stat-icon">
                         <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path d="M3 6h18v12H3z"/>
@@ -716,11 +742,23 @@
                             <path d="M14 18v3"/>
                         </svg>
                         </div>
-                        Consultar reservas
-                    </button>
+                        Ver Salas
+                    </a>
+                    <a href="{{ route('reservations.index') }}" class="quick-btn secondary" style="text-decoration: none;">
+                          <div class="stat-icon">
+                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M3 6h18v12H3z"/>
+                            <path d="M3 10h18"/>
+                            <path d="M8 21h8"/>
+                            <path d="M10 18v3"/>
+                            <path d="M14 18v3"/>
+                        </svg>
+                        </div>
+                        Ver Reservas
+                    </a>
                 </div>
             </div>
-            <span class="quick-deco">$</span>
+            <span class="quick-deco">+</span>
         </div>
 
     </div>{{-- /content --}}
