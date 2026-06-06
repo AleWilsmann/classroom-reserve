@@ -1,39 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Database\Seeders;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Seeder;
 
-class AuthController extends Controller
+class DatabaseSeeder extends Seeder
 {
-    public function showLogin()
+    public function run(): void
     {
-        return view('auth.login');
-    }
-
-    public function login(Request $request)
-    {
-        $credentials = $request->validate([
-            'login'    => 'required|string',
-            'password' => 'required|string',
+        $this->call([
+            UserSeeder::class,
         ]);
-
-        if (Auth::attempt(['email' => $credentials['login'], 'password' => $credentials['password']])) {
-            $request->session()->regenerate();
-            return redirect()->intended('/dashboard');
-        }
-
-        return back()->withErrors([
-            'login' => 'Login ou senha incorretos.',
-        ]);
-    }
-
-    public function logout(Request $request)
-    {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-        return redirect('/login');
     }
 }

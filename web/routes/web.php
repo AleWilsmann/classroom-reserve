@@ -7,8 +7,7 @@ use App\Http\Controllers\RoomController;
 use App\Http\Controllers\ResponsibleController;
 use Illuminate\Support\Facades\Route;
 
-
-
+// Auth
 Route::get('/login',  [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 

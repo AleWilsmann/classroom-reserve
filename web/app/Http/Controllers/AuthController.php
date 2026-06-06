@@ -36,4 +36,21 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
         return redirect('/login');
     }
+
+    public function apiLogin(Request $request)
+{
+    $credentials = $request->validate([
+        'email'    => 'required|email',
+        'password' => 'required|string',
+    ]);
+
+    if (!Auth::attempt($credentials)) {
+        return response()->json(['message' => 'Credenciais inválidas.'], 401);
+    }
+
+    $user  = Auth::user();
+    $token = $user->createToken('api-token')->plainTextToken;
+
+    return response()->json(['token' => $token]);
+}
 }
