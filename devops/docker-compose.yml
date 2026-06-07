@@ -5,17 +5,23 @@ services:
       context: .
       dockerfile: docker/php/Dockerfile
     volumes:
-      - /root/classroom-reserve/web:/var/www
+      - ../web:/var/www
+
+    networks:
+      - appnet
 
   nginx:
     image: nginx:alpine
     ports:
       - "8080:80"
     volumes:
-      - /root/classroom-reserve/web:/var/www
+      - ../web:/var/www
       - ./docker/nginx/conf.d:/etc/nginx/conf.d
     depends_on:
       - php
+
+    networks:
+      - appnet
 
   postgres:
     image: postgres:16
@@ -27,6 +33,13 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+
+    networks:
+      - appnet
+
+networks:
+  appnet:
+    driver: bridge
 
 volumes:
   pgdata:

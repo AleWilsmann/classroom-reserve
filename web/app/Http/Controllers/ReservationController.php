@@ -38,7 +38,7 @@ class ReservationController extends Controller
             'start_time' => 'required|date',
             'end_time' => 'required|date|after:start_time',
             'description' => 'nullable|string',
-            'status' => 'required|in:pending,confirmed,cancelled',
+            'status' => 'required|in:pendente,confirmada,cancelada',
         ]);
 
         $validated['user_id'] = Auth::id();
@@ -72,7 +72,7 @@ class ReservationController extends Controller
             'start_time' => 'required|date',
             'end_time' => 'required|date|after:start_time',
             'description' => 'nullable|string',
-            'status' => 'required|in:pending,confirmed,cancelled',
+            'status' => 'required|in:pendente,confirmada,cancelada',
         ]);
 
         $reservation->update($validated);

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->dateTime('start_time');
             $table->dateTime('end_time');
-            $table->enum('status', ['pending', 'confirmed', 'cancelled'])->default('pending');
+            $table->enum('status', ['pendente', 'confirmada', 'cancelada'])->default('pendente');
             $table->timestamps();
         });
     }
