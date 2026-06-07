@@ -20,8 +20,10 @@ Route::middleware('auth')->group(function () {
     
     // Routes para Responsibles
     Route::resource('responsibles', ResponsibleController::class);
+
+    Route::get('/reservations/by-room/{room_id}', [ReservationController::class, 'byRoom'])->name('reservations.byRoom');
+    Route::get('/reservations/by-date/{date}', [ReservationController::class, 'byDate'])->name('reservations.byDate');
     
     // Routes para Reservas
     Route::resource('reservations', ReservationController::class);
-
 });
