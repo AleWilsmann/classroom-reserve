@@ -13,8 +13,9 @@ class ReservationController extends Controller
 {
     public function index()
     {
+        $rooms = Room::orderBy('name')->get();
         $reservations = Reservation::with(['room', 'responsible'])->orderBy('start_time', 'desc')->paginate(15);
-        return view('reservations.index', compact('reservations'));
+        return view('reservations.index', compact('reservations', 'rooms'));
     }
 
     public function create()
@@ -94,9 +95,12 @@ class ReservationController extends Controller
         $reservations = Reservation::with(['room', 'responsible'])
             ->where('room_id', $room_id)
             ->orderBy('start_time', 'desc')
-            ->get();
+            ->paginate(15);
 
-        return response()->json($reservations);
+        $rooms = Room::orderBy('name')->get();
+        $selectedRoom = Room::find($room_id);
+
+        return view('reservations.index', compact('reservations', 'rooms', 'selectedRoom'));
     }
 
     public function byDate($date)
@@ -104,8 +108,9 @@ class ReservationController extends Controller
         $reservations = Reservation::with(['room', 'responsible'])
             ->whereDate('start_time', $date)
             ->orderBy('start_time', 'desc')
-            ->get();
+            ->paginate(15);
 
-        return response()->json($reservations);
+        $rooms = Room::orderBy('name')->get();
+        return view('reservations.index', compact('reservations', 'rooms', 'date'));
     }
 }
