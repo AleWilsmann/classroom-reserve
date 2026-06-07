@@ -10,5 +10,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/reservations', [ReservationController::class, 'index']);
     Route::post('/reservations', [ReservationController::class, 'store']);
     Route::patch('/reservations/{id}/cancel', [ReservationController::class, 'cancel']);
+    Route::get('/reservations/by-room/{room_id}', [ReservationController::class, 'byRoom']);
+    Route::get('/reservations/by-date/{date}', [ReservationController::class, 'byDate']);
     
 });
