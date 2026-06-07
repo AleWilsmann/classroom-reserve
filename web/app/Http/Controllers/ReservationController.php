@@ -88,4 +88,24 @@ class ReservationController extends Controller
         return redirect()->route('reservations.index')
                          ->with('success', 'Reserva removida com sucesso!');
     }
+
+    public function byRoom($room_id)
+    {
+        $reservations = Reservation::with(['room', 'responsible'])
+            ->where('room_id', $room_id)
+            ->orderBy('start_time', 'desc')
+            ->get();
+
+        return response()->json($reservations);
+    }
+
+    public function byDate($date)
+    {
+        $reservations = Reservation::with(['room', 'responsible'])
+            ->whereDate('start_time', $date)
+            ->orderBy('start_time', 'desc')
+            ->get();
+
+        return response()->json($reservations);
+    }
 }

@@ -23,4 +23,5 @@ Route::middleware('auth')->group(function () {
     
     // Routes para Reservas
     Route::resource('reservations', ReservationController::class);
+
 });
