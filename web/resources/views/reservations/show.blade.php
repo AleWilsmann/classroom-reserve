@@ -1,6 +1,6 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
+@extends('layouts.app')
+
+@section('content')
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalhes da Reserva — Educar Mais</title>
@@ -24,8 +24,6 @@
         .btn-secondary { background: #fff; border: 1px solid #1e5fc2; color: #1e5fc2; }
         .btn-primary { background: #1e5fc2; color: #fff; }
     </style>
-</head>
-<body>
     <div class="container">
         <div class="card">
             <h1 class="title">Detalhes da Reserva</h1>
@@ -69,5 +67,4 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+@endsection

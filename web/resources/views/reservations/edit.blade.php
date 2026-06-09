@@ -1,6 +1,6 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
+@extends('layouts.app')
+
+@section('content')
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Reserva — Educar Mais</title>
@@ -22,8 +22,7 @@
         .btn-secondary { padding: 14px 26px; border-radius: 14px; border: 1px solid #1e5fc2; background: #fff; color: #1e5fc2; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
         .error-list { background: #fee2e2; color: #7f1d1d; border: 1px solid #fecaca; border-radius: 12px; padding: 16px; margin-bottom: 18px; }
     </style>
-</head>
-<body>
+
     <div class="container">
         <div class="card">
             <h1 class="title">Editar Reserva</h1>
@@ -81,9 +80,9 @@
                 <div class="form-group">
                     <label for="status">Status *</label>
                     <select id="status" name="status" required>
-                        <option value="pending" {{ old('status', $reservation->status) == 'pending' ? 'selected' : '' }}>Pendente</option>
-                        <option value="confirmed" {{ old('status', $reservation->status) == 'confirmed' ? 'selected' : '' }}>Confirmada</option>
-                        <option value="cancelled" {{ old('status', $reservation->status) == 'cancelled' ? 'selected' : '' }}>Cancelada</option>
+                        <option value="pendente">Pendente</option>
+                        <option value="ativa">Ativa</option>
+                        <option value="cancelada">Cancelada</option>
                     </select>
                 </div>
 
@@ -99,5 +98,4 @@
             </form>
         </div>
     </div>
-</body>
-</html>
+@endsection

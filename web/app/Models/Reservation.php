@@ -47,7 +47,7 @@ class Reservation extends Model
     public static function hasConflict(int $roomId, string $start, string $end, ?int $excludeId = null): bool
     {
         return self::where('room_id', $roomId)
-            ->whereIn('status', ['pendente', 'confirmada'])
+            ->whereIn('status', ['pendente', 'confirmada', 'cancelada'])
             ->when($excludeId, fn($q) => $q->where('id', '!=', $excludeId))
             ->where(function ($q) use ($start, $end) {
                 $q->whereBetween('start_time', [$start, $end])

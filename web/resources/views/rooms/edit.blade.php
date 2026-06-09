@@ -1,6 +1,7 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
+@extends('layouts.app')
+
+@section('content')
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Sala — Educar Mais</title>
@@ -172,8 +173,7 @@
             margin-top: 4px;
         }
     </style>
-</head>
-<body>
+
     <div class="container">
         <a href="{{ route('rooms.index') }}" class="back-link">← Voltar para Salas</a>
 
@@ -259,5 +259,4 @@
             </form>
         </div>
     </div>
-</body>
-</html>
+@endsection

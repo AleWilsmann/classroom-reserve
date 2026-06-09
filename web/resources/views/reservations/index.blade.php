@@ -1,256 +1,240 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
+@extends('layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reservas — Educar Mais</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap');
+@section('title', 'Reservas — Educar Mais')
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+@section('styles')
+<style>
+    .container {
+        max-width: 1200px;
+        margin: 36px auto;
+        padding: 0 20px;
+    }
 
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background: #eef4fc;
-            color: #0f2a5e;
-        }
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 28px;
+    }
 
-        .container {
-            max-width: 1200px;
-            margin: 36px auto;
-            padding: 0 20px;
-        }
+    .title {
+        font-family: 'Syne', sans-serif;
+        font-size: 2rem;
+        color: #0f2a5e;
+    }
 
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 28px;
-        }
+    .btn-primary {
+        padding: 12px 24px;
+        border-radius: 12px;
+        border: none;
+        background: #1e5fc2;
+        color: #fff;
+        cursor: pointer;
+        text-decoration: none;
+        font-weight: 700;
+        display: inline-block;
+    }
 
-        .title {
-            font-family: 'Syne', sans-serif;
-            font-size: 2rem;
-            color: #0f2a5e;
-        }
+    .btn-primary:hover { background: #2d7de8; }
 
-        .btn-primary {
-            padding: 12px 24px;
-            border-radius: 12px;
-            border: none;
-            background: #1e5fc2;
-            color: #fff;
-            cursor: pointer;
-            text-decoration: none;
-            font-weight: 700;
-        }
+    .alert-success {
+        background: #d1fae5;
+        color: #065f46;
+        border: 1px solid #a7f3d0;
+        border-radius: 12px;
+        padding: 14px 18px;
+        margin-bottom: 20px;
+    }
 
-        .btn-primary:hover {
-            background: #2d7de8;
-        }
+    .table-wrap {
+        background: #fff;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(15, 42, 94, .08);
+        overflow: hidden;
+    }
 
-        .alert-success {
-            background: #d1fae5;
-            color: #065f46;
-            border: 1px solid #a7f3d0;
-            border-radius: 12px;
-            padding: 14px 18px;
-            margin-bottom: 20px;
-        }
+    table { width: 100%; border-collapse: collapse; }
 
-        .table-wrap {
-            background: #fff;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(15, 42, 94, .08);
-            overflow: hidden;
-        }
+    th, td { padding: 18px 16px; text-align: left; font-size: .95rem; }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
+    thead { background: #ddeeff; }
 
-        th,
-        td {
-            padding: 18px 16px;
-            text-align: left;
-            font-size: .95rem;
-        }
+    th { color: #1e3a72; font-weight: 700; letter-spacing: .03em; }
 
-        thead {
-            background: #ddeeff;
-        }
+    tbody tr { border-top: 1px solid rgba(15, 42, 94, .08); }
 
-        th {
-            color: #1e3a72;
-            font-weight: 700;
-            letter-spacing: .03em;
-        }
+    tbody tr:hover { background: rgba(45, 125, 232, .06); }
 
-        tbody tr {
-            border-top: 1px solid rgba(15, 42, 94, .08);
-        }
+    .badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 6px 12px;
+        border-radius: 999px;
+        font-weight: 700;
+        font-size: .78rem;
+    }
 
-        tbody tr:hover {
-            background: rgba(45, 125, 232, .06);
-        }
+    .badge-ativa     { background: #dcfce7; color: #166534; }
+    .badge-pendente  { background: #fef3c7; color: #92400e; }
+    .badge-cancelada { background: #fee2e2; color: #991b1b; }
 
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            padding: 6px 12px;
-            border-radius: 999px;
-            font-weight: 700;
-            font-size: .78rem;
-        }
+    .actions { display: flex; gap: 10px; }
 
-        .badge-pending {
-            background: #fef3c7;
-            color: #92400e;
-        }
+    .btn-secondary {
+        padding: 8px 14px;
+        border-radius: 10px;
+        border: 1px solid #1e5fc2;
+        background: transparent;
+        color: #1e5fc2;
+        font-weight: 700;
+        text-decoration: none;
+    }
 
-        .badge-confirmed {
-            background: #dcfce7;
-            color: #166534;
-        }
+    .btn-danger {
+        padding: 8px 14px;
+        border-radius: 10px;
+        border: none;
+        background: #ef4444;
+        color: #fff;
+        font-weight: 700;
+        cursor: pointer;
+    }
 
-        .badge-cancelled {
-            background: #fee2e2;
-            color: #991b1b;
-        }
+    .btn-danger:hover { background: #dc2626; }
 
-        .actions {
-            display: flex;
-            gap: 10px;
-        }
+    .empty-state { padding: 48px 24px; text-align: center; color: #64748b; }
 
-        .btn-secondary {
-            padding: 8px 14px;
-            border-radius: 10px;
-            border: 1px solid #1e5fc2;
-            background: transparent;
-            color: #1e5fc2;
-            font-weight: 700;
-            text-decoration: none;
-        }
+    .filter-card {
+        background: #fff;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(15,42,94,.08);
+        padding: 24px;
+        margin-bottom: 24px;
+    }
 
-        .btn-danger {
-            padding: 8px 14px;
-            border-radius: 10px;
-            border: none;
-            background: #ef4444;
-            color: #fff;
-            font-weight: 700;
-            cursor: pointer;
-        }
+    .filter-label { font-weight: 700; color: #1e3a72; margin-bottom: 16px; }
 
-        .btn-danger:hover {
-            background: #dc2626;
-        }
+    .filter-row { display: flex; gap: 16px; flex-wrap: wrap; align-items: flex-end; }
 
-        .empty-state {
-            padding: 48px 24px;
-            text-align: center;
-            color: #64748b;
-        }
-    </style>
-</head>
+    .filter-group { display: flex; flex-direction: column; gap: 6px; flex: 1; min-width: 200px; }
 
-<body>
-    <div class="container">
-        <div class="header">
-            <div>
-                <h1 class="title">Reservas</h1>
-                <p>Lista de reservas de sala vinculadas ao responsável.</p>
-            </div>
-            <a href="{{ route('reservations.create') }}" class="btn-primary">Nova Reserva</a>
+    .filter-group label { font-size: .85rem; font-weight: 600; color: #1e3a72; }
+
+    .filter-group select,
+    .filter-group input {
+        padding: 12px 16px;
+        border-radius: 12px;
+        border: 1.5px solid #ddeeff;
+        font-family: inherit;
+        font-size: .95rem;
+        color: #0f2a5e;
+        background: #f8fbff;
+    }
+
+    .btn-outline {
+        padding: 12px 24px;
+        border-radius: 12px;
+        border: 1.5px solid #1e5fc2;
+        background: transparent;
+        color: #1e5fc2;
+        font-weight: 700;
+        text-decoration: none;
+        white-space: nowrap;
+    }
+</style>
+@endsection
+
+@section('content')
+<div class="container">
+
+    <div class="header">
+        <div>
+            <h1 class="title">Reservas</h1>
+            <p>Lista de reservas de sala vinculadas ao responsável.</p>
         </div>
-
-        <div
-            style="background:#fff; border-radius:20px; box-shadow:0 10px 30px rgba(15,42,94,.08); padding:24px; margin-bottom:24px;">
-            <p style="font-weight:700; color:#1e3a72; margin-bottom:16px;">🔍 Filtrar Reservas</p>
-            <div style="display:flex; gap:16px; flex-wrap:wrap; align-items:flex-end;">
-
-                <div style="display:flex; flex-direction:column; gap:6px; flex:1; min-width:200px;">
-                    <label style="font-size:.85rem; font-weight:600; color:#1e3a72;">Por Sala</label>
-                    <select onchange="if(this.value) window.location='/reservations/by-room/'+this.value"
-                        style="padding:12px 16px; border-radius:12px; border:1.5px solid #ddeeff; font-family:inherit; font-size:.95rem; color:#0f2a5e; background:#f8fbff;">
-                        <option value="">Selecione uma sala...</option>
-                        @foreach($rooms as $room)
-                            <option value="{{ $room->id }}" {{ isset($selectedRoom) && $selectedRoom->id == $room->id ? 'selected' : '' }}>{{ $room->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <div style="display:flex; flex-direction:column; gap:6px; flex:1; min-width:200px;">
-                    <label style="font-size:.85rem; font-weight:600; color:#1e3a72;">Por Data</label>
-                    <input type="date" value="{{ $date ?? '' }}" onblur="if(this.value) window.location='/reservations/by-date/'+this.value" style="padding:12px 16px; border-radius:12px; border:1.5px solid #ddeeff; font-family:inherit; font-size:.95rem; color:#0f2a5e; background:#f8fbff;">
-                </div>
-
-                <a href="/reservations"
-                    style="padding:12px 24px; border-radius:12px; border:1.5px solid #1e5fc2; background:transparent; color:#1e5fc2; font-weight:700; text-decoration:none;">Limpar
-                    filtros</a>
-            </div>
-        </div>
-
-        @if(session('success'))
-            <div class="alert-success">{{ session('success') }}</div>
-        @endif
-
-        <div class="table-wrap">
-            @if($reservations->count())
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Reserva</th>
-                            <th>Sala</th>
-                            <th>Responsável</th>
-                            <th>Início</th>
-                            <th>Fim</th>
-                            <th>Status</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($reservations as $reservation)
-                            <tr>
-                                <td>{{ $reservation->title }}</td>
-                                <td>{{ $reservation->room->name ?? '—' }}</td>
-                                <td>{{ $reservation->responsible->name ?? '—' }}</td>
-                                <td>{{ $reservation->start_time->format('d/m/Y H:i') }}</td>
-                                <td>{{ $reservation->end_time->format('d/m/Y H:i') }}</td>
-                                <td>
-                                    <span
-                                        class="badge badge-{{ $reservation->status }}">{{ ucfirst($reservation->status) }}</span>
-                                </td>
-                                <td class="actions">
-                                    <a href="{{ route('reservations.edit', $reservation) }}" class="btn-secondary">Editar</a>
-                                    <form action="{{ route('reservations.destroy', $reservation) }}" method="POST"
-                                        style="display:inline;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn-danger"
-                                            onclick="return confirm('Remover reserva?')">Excluir</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            @else
-                <div class="empty-state">
-                    <p>Nenhuma reserva registrada ainda.</p>
-                </div>
-            @endif
-        </div>
-
-        <div style="margin-top: 18px;">{{ $reservations->links() }}</div>
+        <a href="{{ route('reservations.create') }}" class="btn-primary">+ Nova Reserva</a>
     </div>
-</body>
 
-</html>
+    {{-- Filtros --}}
+    <div class="filter-card">
+        <p class="filter-label">🔍 Filtrar Reservas</p>
+        <div class="filter-row">
+
+            <div class="filter-group">
+                <label>Por Sala</label>
+                <select onchange="if(this.value) window.location='/reservations/by-room/'+this.value">
+                    <option value="">Selecione uma sala...</option>
+                    @foreach($rooms as $room)
+                        <option value="{{ $room->id }}"
+                            {{ isset($selectedRoom) && $selectedRoom->id == $room->id ? 'selected' : '' }}>
+                            {{ $room->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label>Por Data</label>
+                <input type="date" value="{{ $date ?? '' }}"
+                    onblur="if(this.value) window.location='/reservations/by-date/'+this.value">
+            </div>
+
+            <a href="{{ route('reservations.index') }}" class="btn-outline">Limpar filtros</a>
+        </div>
+    </div>
+
+    @if(session('success'))
+        <div class="alert-success">{{ session('success') }}</div>
+    @endif
+
+    <div class="table-wrap">
+        @if($reservations->count())
+            <table>
+                <thead>
+                    <tr>
+                        <th>Reserva</th>
+                        <th>Sala</th>
+                        <th>Responsável</th>
+                        <th>Início</th>
+                        <th>Fim</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($reservations as $reservation)
+                        <tr>
+                            <td>{{ $reservation->title }}</td>
+                            <td>{{ $reservation->room->name ?? '—' }}</td>
+                            <td>{{ $reservation->responsible->name ?? '—' }}</td>
+                            <td>{{ $reservation->start_time->format('d/m/Y H:i') }}</td>
+                            <td>{{ $reservation->end_time->format('d/m/Y H:i') }}</td>
+                            <td>
+                                <span class="badge badge-{{ $reservation->status }}">
+                                    {{ ucfirst($reservation->status) }}
+                                </span>
+                            </td>
+                            <td class="actions">
+                                <a href="{{ route('reservations.edit', $reservation) }}" class="btn-secondary">Editar</a>
+                                <form action="{{ route('reservations.destroy', $reservation) }}" method="POST" style="display:inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn-danger"
+                                        onclick="return confirm('Remover reserva?')">Excluir</button>
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @else
+            <div class="empty-state">
+                <p>Nenhuma reserva registrada ainda.</p>
+            </div>
+        @endif
+    </div>
+
+    <div style="margin-top: 18px;">{{ $reservations->links() }}</div>
+
+</div>
+@endsection

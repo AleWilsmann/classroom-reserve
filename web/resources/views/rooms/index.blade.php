@@ -1,6 +1,7 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
+@extends('layouts.app')
+
+@section('content')
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gerenciar Salas — Educar Mais</title>
@@ -230,8 +231,7 @@
             border-color: var(--blue);
         }
     </style>
-</head>
-<body>
+
     <div class="container">
         <div class="header">
             <h1 class="title">Gerenciar Salas de Aula</h1>
@@ -265,8 +265,8 @@
                                 <td>{{ $room->location }}</td>
                                 <td><span class="capacity">{{ $room->capacity }} pessoas</span></td>
                                 <td>
-                                    @if($room->equipment && count($room->equipment) > 0)
-                                        {{ implode(', ', $room->equipment) }}
+                                    @if($room->equipment)
+                                         {{ $room->equipment }}
                                     @else
                                         <em style="color: #cbd5e1;">Nenhum equipamento</em>
                                     @endif
@@ -308,5 +308,5 @@
             </div>
         @endif
     </div>
-</body>
-</html>
+
+@endsection

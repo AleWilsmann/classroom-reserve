@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Reservation;
+use App\Models\Room;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -30,7 +31,7 @@ class ReservationController extends Controller
             'start_time'     => 'required|date',
             'end_time'       => 'required|date|after:start_time',
             'description'    => 'nullable|string|max:1000',
-            'status'         => 'sometimes|in:pendente,confirmada,cancelada',
+            'status' => 'sometimes|in:pendente,ativa,cancelada',
         ]);
 
         if (Reservation::hasConflict(
@@ -46,7 +47,7 @@ class ReservationController extends Controller
         $reservation = Reservation::create([
             ...$data,
             'user_id' => Auth::id(),
-            'status'  => $data['status'] ?? 'pendente',
+            'status' => $data['status'] ?? 'ativa',
         ]);
 
         return response()->json(
@@ -73,4 +74,29 @@ class ReservationController extends Controller
             'reservation' => $reservation->load(['room', 'responsible']),
         ]);
     }
+     public function byRoom($room_id)
+    {
+        $reservations = Reservation::with(['room', 'responsible'])
+            ->where('room_id', $room_id)
+            ->orderBy('start_time', 'desc')
+            ->paginate(15);
+
+        $rooms = Room::orderBy('name')->get();
+        $selectedRoom = Room::find($room_id);
+
+        return view('reservations.index', compact('reservations', 'rooms', 'selectedRoom'));
+    }
+
+    public function byDate($date)
+    {
+        $reservations = Reservation::with(['room', 'responsible'])
+            ->whereDate('start_time', $date)
+            ->orderBy('start_time', 'desc')
+            ->paginate(15);
+
+        $rooms = Room::orderBy('name')->get();
+        return view('reservations.index', compact('reservations', 'rooms'));
+    }
+
+    
 }

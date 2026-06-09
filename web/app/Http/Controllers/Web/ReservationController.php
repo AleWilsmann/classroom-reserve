@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Web;
 
+use App\Http\Controllers\Controller;
 use App\Models\Reservation;
 use App\Models\Responsible;
 use App\Models\Room;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 
 class ReservationController extends Controller
@@ -39,7 +39,7 @@ class ReservationController extends Controller
             'start_time' => 'required|date',
             'end_time' => 'required|date|after:start_time',
             'description' => 'nullable|string',
-            'status' => 'required|in:pendente,confirmada,cancelada',
+            'status' => 'required|in:pendente,ativa,cancelada',
         ]);
 
         $validated['user_id'] = Auth::id();
@@ -73,7 +73,7 @@ class ReservationController extends Controller
             'start_time' => 'required|date',
             'end_time' => 'required|date|after:start_time',
             'description' => 'nullable|string',
-            'status' => 'required|in:pendente,confirmada,cancelada',
+            'status' => 'required|in:pendente,ativa,cancelada',
         ]);
 
         $reservation->update($validated);

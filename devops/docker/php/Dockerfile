@@ -16,3 +16,4 @@ RUN echo '[global]' > /usr/local/etc/php-fpm.d/zz-docker.conf && \
 
 
 WORKDIR /var/www
+CMD ["php-fpm"]

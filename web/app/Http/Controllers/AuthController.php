@@ -29,28 +29,30 @@ class AuthController extends Controller
         ]);
     }
 
-    public function logout(Request $request)
-    {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-        return redirect('/login');
-    }
+        public function logout(Request $request)
+        {
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+            return redirect()->route('login');
+        }
 
-    public function apiLogin(Request $request)
-{
-    $credentials = $request->validate([
-        'email'    => 'required|email',
-        'password' => 'required|string',
-    ]);
+        public function apiLogin(Request $request)
+        {
+            $credentials = $request->validate([
+                'email'    => 'required|email',
+                'password' => 'required|string',
+            ]);
 
-    if (!Auth::attempt($credentials)) {
-        return response()->json(['message' => 'Credenciais inválidas.'], 401);
-    }
+            if (!Auth::attempt($credentials)) {
+                return response()->json(['message' => 'Credenciais inválidas.'], 401);
+            }
 
-    $user  = Auth::user();
-    $token = $user->createToken('api-token')->plainTextToken;
+            $user  = Auth::user();
+            $token = $user->createToken('api-token')->plainTextToken;
 
-    return response()->json(['token' => $token]);
-}
+            return response()->json(['token' => $token]);
+        }
+
+
 }
