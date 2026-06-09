@@ -33,29 +33,41 @@ class ReservationController extends Controller
         }
 
         $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'room_id' => 'required|exists:rooms,id',
+            'title'          => 'required|string|max:255',
+            'room_id'        => 'required|exists:rooms,id',
             'responsible_id' => 'required|exists:responsibles,id',
-            'start_time' => 'required|date',
-            'end_time' => 'required|date|after:start_time',
-            'description' => 'nullable|string',
-            'status' => 'required|in:pendente,ativa,cancelada',
+            'start_time'     => 'required|date',
+            'end_time'       => 'required|date|after:start_time',
+            'description'    => 'nullable|string',
+            'status'         => 'sometimes|in:pendente,ativa,cancelada',
         ]);
 
         $validated['user_id'] = Auth::id();
+        $validated['status']  = $validated['status'] ?? 'ativa'; // garante status padrão
 
-        // verifica se a sala está ativa
+        // Verifica se a sala está ativa
         $room = Room::findOrFail($validated['room_id']);
         if ($room->status !== 'ativa') {
             return redirect()->back()
-                     ->withInput()
-                     ->with('error', 'Esta sala está inativa e não pode ser reservada.');
-}
+                ->withInput()
+                ->with('error', 'Esta sala está inativa e não pode ser reservada.');
+        }
+
+        // Verifica conflito de horário
+        if (Reservation::hasConflict(
+            $validated['room_id'],
+            $validated['start_time'],
+            $validated['end_time']
+        )) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Já existe uma reserva para esta sala neste período.');
+        }
 
         Reservation::create($validated);
 
         return redirect()->route('reservations.index')
-                         ->with('success', 'Reserva criada com sucesso!');
+            ->with('success', 'Reserva criada com sucesso!');
     }
 
     public function show(Reservation $reservation)
@@ -75,19 +87,39 @@ class ReservationController extends Controller
     public function update(Request $request, Reservation $reservation)
     {
         $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'room_id' => 'required|exists:rooms,id',
+            'title'          => 'required|string|max:255',
+            'room_id'        => 'required|exists:rooms,id',
             'responsible_id' => 'required|exists:responsibles,id',
-            'start_time' => 'required|date',
-            'end_time' => 'required|date|after:start_time',
-            'description' => 'nullable|string',
-            'status' => 'required|in:pendente,ativa,cancelada',
+            'start_time'     => 'required|date',
+            'end_time'       => 'required|date|after:start_time',
+            'description'    => 'nullable|string',
+            'status'         => 'required|in:pendente,ativa,cancelada',
         ]);
+
+        // Verifica se a sala está ativa
+        $room = Room::findOrFail($validated['room_id']);
+        if ($room->status !== 'ativa') {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Esta sala está inativa e não pode ser reservada.');
+        }
+
+        // Verifica conflito de horário (excluindo a própria reserva)
+        if (Reservation::hasConflict(
+            $validated['room_id'],
+            $validated['start_time'],
+            $validated['end_time'],
+            $reservation->id  // <-- exclui a reserva atual da verificação
+        )) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Já existe uma reserva para esta sala neste período.');
+        }
 
         $reservation->update($validated);
 
         return redirect()->route('reservations.index')
-                         ->with('success', 'Reserva atualizada com sucesso!');
+            ->with('success', 'Reserva atualizada com sucesso!');
     }
 
     public function destroy(Reservation $reservation)
@@ -95,7 +127,7 @@ class ReservationController extends Controller
         $reservation->delete();
 
         return redirect()->route('reservations.index')
-                         ->with('success', 'Reserva removida com sucesso!');
+            ->with('success', 'Reserva removida com sucesso!');
     }
 
     public function byRoom($room_id)
@@ -135,5 +167,4 @@ class ReservationController extends Controller
         return redirect()->route('reservations.index')
             ->with('success', 'Reserva cancelada com sucesso!');
     }
-
 }

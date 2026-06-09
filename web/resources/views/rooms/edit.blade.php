@@ -237,7 +237,7 @@
                         type="text"
                         id="equipment"
                         name="equipment"
-                        value="{{ old('equipment', $room->equipment ? implode(', ', $room->equipment) : '') }}"
+                        value="{{ old('equipment', $room->equipment ? (is_array($room->equipment) ? implode(', ', $room->equipment) : $room->equipment) : '') }}"
                         placeholder="Ex: Projetor, Quadro branco, Ar-condicionado"
                     />
                     <p class="help-text">Separe os equipamentos por vírgula</p>

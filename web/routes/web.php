@@ -19,12 +19,10 @@ Route::middleware('auth')->group(function () {
     
     Route::patch('/reservations/{id}/cancel', [ReservationController::class, 'cancel']);
     Route::resource('rooms', RoomController::class);
-    
-    // Routes para Responsibles
-    Route::resource('responsibles', ResponsibleController::class);
-
     Route::get('/reservations/by-room/{room_id}', [ReservationController::class, 'byRoom'])->name('reservations.byRoom');
     Route::get('/reservations/by-date/{date}', [ReservationController::class, 'byDate'])->name('reservations.byDate');
+    Route::resource('responsibles', ResponsibleController::class);
+   
     
     // Routes para Reservas
     Route::resource('reservations', ReservationController::class);

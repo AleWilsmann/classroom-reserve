@@ -36,6 +36,7 @@ class RoomController extends Controller
             'location' => 'required|string|max:255',
             'equipment' => 'nullable|string',
             'description' => 'nullable|string',
+            'status'      => 'nullable|string|in:ativa,inativa',
         ]);
 
         // Converter equipamentos string em array
@@ -78,6 +79,7 @@ class RoomController extends Controller
             'location' => 'required|string|max:255',
             'equipment' => 'nullable|string',
             'description' => 'nullable|string',
+            'status'      => 'nullable|string|in:ativa,inativa',
         ]);
 
         // Converter equipamentos string em array

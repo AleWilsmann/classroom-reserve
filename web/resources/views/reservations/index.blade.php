@@ -46,6 +46,16 @@
         margin-bottom: 20px;
     }
 
+    .alert-error {
+        background: #fee2e2;
+        color: #7f1d1d;
+        border: 1px solid #fecaca;
+        border-radius: 12px;
+        padding: 14px 18px;
+        margin-bottom: 20px;
+        font-weight: 600;
+    }
+
     .table-wrap {
         background: #fff;
         border-radius: 20px;
@@ -185,6 +195,10 @@
 
     @if(session('success'))
         <div class="alert-success">{{ session('success') }}</div>
+    @endif
+
+    @if(session('error'))
+        <div class="alert-error">{{ session('error') }}</div>
     @endif
 
     <div class="table-wrap">

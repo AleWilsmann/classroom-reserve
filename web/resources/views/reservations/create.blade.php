@@ -37,6 +37,12 @@
                 </div>
             @endif
 
+            @if(session('error'))
+                <div class="error-list">
+                    {{ session('error') }}
+                </div>
+            @endif
+
             <form method="POST" action="{{ route('reservations.store') }}">
                 @csrf
                 <div class="form-group">

@@ -9,17 +9,24 @@ use Illuminate\Support\Facades\Route;
 Route::post('/login', [AuthController::class, 'apiLogin']);
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/reservations',                        [ApiReservationController::class, 'index']);
-    Route::post('/reservations',                       [ApiReservationController::class, 'store']);
-    Route::patch('/reservations/{reservation}/cancel', [ApiReservationController::class, 'cancel']);
-    Route::get('/reservations/by-room/{room_id}',      [ApiReservationController::class, 'byRoom']);
-    Route::get('/reservations/by-date/{date}',         [ApiReservationController::class, 'byDate']);
-    Route::get('/rooms',                               [ApiRoomController::class, 'index']);
-    Route::post('/rooms',                              [ApiRoomController::class, 'store']);
-    Route::delete('/rooms/{room}',                     [ApiRoomController::class, 'destroy']);
-    Route::post('/responsibles',                       [ApiResponsibleController::class, 'store']);
-    Route::get('/responsibles',                        [ApiResponsibleController::class, 'index']);
-    Route::delete('/responsibles/{responsible}',       [ApiResponsibleController::class, 'destroy']);
- 
+
+    // Reservas
+    Route::get('/reservations',                        [ApiReservationController::class, 'index']); //lista as reservas
+    Route::post('/reservations',                       [ApiReservationController::class, 'store']); //cria reserva 
+    Route::get('/reservations/by-room/{room_id}',      [ApiReservationController::class, 'byRoom']);  //lista reserva sala especifica
+    Route::get('/reservations/by-date/{date}',         [ApiReservationController::class, 'byDate']);  //lista resevas por data
+    Route::get('/reservations/{reservation}',          [ApiReservationController::class, 'show']);  //mostra reserva especifica
+    Route::put('/reservations/{reservation}',          [ApiReservationController::class, 'update']); //atualiza uma reserva
+    Route::patch('/reservations/{reservation}/cancel', [ApiReservationController::class, 'cancel']); //calncela uma reserva
+
+    // Salas
+    Route::get('/rooms',                               [ApiRoomController::class, 'index']); //lista salas
+    Route::post('/rooms',                              [ApiRoomController::class, 'store']); //cria sala
+    Route::delete('/rooms/{room}',                     [ApiRoomController::class, 'destroy']); //deleta sala
+
+    // Responsáveis
+    Route::post('/responsibles',                       [ApiResponsibleController::class, 'store']); //cria responsável
+    Route::get('/responsibles',                        [ApiResponsibleController::class, 'index']); //lista responsáveis
+    Route::delete('/responsibles/{responsible}',       [ApiResponsibleController::class, 'destroy']); //deleta responsável
 
 });
