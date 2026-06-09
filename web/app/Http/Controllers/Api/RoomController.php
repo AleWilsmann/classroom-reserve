@@ -26,6 +26,7 @@ class RoomController extends Controller
             'location'    => 'nullable|string',
             'equipment'   => 'nullable|string',
             'description' => 'nullable|string',
+            'status'      => 'nullable|string|in:ativa,inativa',
         ]);
 
         $room = Room::create($validated);
@@ -40,6 +41,7 @@ class RoomController extends Controller
             'location'    => 'nullable|string',
             'equipment'   => 'nullable|string',
             'description' => 'nullable|string',
+            'status'      => 'nullable|string|in:ativa,inativa',
         ]);
 
         $room->update($validated);

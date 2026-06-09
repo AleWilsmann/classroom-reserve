@@ -34,6 +34,14 @@ class ReservationController extends Controller
             'status' => 'sometimes|in:pendente,ativa,cancelada',
         ]);
 
+        // verifica se a sala está ativa
+        $room = Room::findOrFail($data['room_id']);
+        if ($room->status !== 'ativa') {
+            return response()->json([
+                'message' => 'Esta sala está inativa e não pode ser reservada.'
+            ], 422);
+        }
+
         if (Reservation::hasConflict(
             $data['room_id'],
             $data['start_time'],
@@ -74,28 +82,27 @@ class ReservationController extends Controller
             'reservation' => $reservation->load(['room', 'responsible']),
         ]);
     }
-     public function byRoom($room_id)
+
+
+    public function byRoom($room_id)
     {
         $reservations = Reservation::with(['room', 'responsible'])
             ->where('room_id', $room_id)
             ->orderBy('start_time', 'desc')
-            ->paginate(15);
+            ->get();
 
-        $rooms = Room::orderBy('name')->get();
-        $selectedRoom = Room::find($room_id);
-
-        return view('reservations.index', compact('reservations', 'rooms', 'selectedRoom'));
+        return response()->json($reservations);
     }
+
 
     public function byDate($date)
     {
         $reservations = Reservation::with(['room', 'responsible'])
             ->whereDate('start_time', $date)
             ->orderBy('start_time', 'desc')
-            ->paginate(15);
+            ->get();
 
-        $rooms = Room::orderBy('name')->get();
-        return view('reservations.index', compact('reservations', 'rooms'));
+        return response()->json($reservations);
     }
 
     

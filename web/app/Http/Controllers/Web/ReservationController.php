@@ -44,6 +44,14 @@ class ReservationController extends Controller
 
         $validated['user_id'] = Auth::id();
 
+        // verifica se a sala está ativa
+        $room = Room::findOrFail($validated['room_id']);
+        if ($room->status !== 'ativa') {
+            return redirect()->back()
+                     ->withInput()
+                     ->with('error', 'Esta sala está inativa e não pode ser reservada.');
+}
+
         Reservation::create($validated);
 
         return redirect()->route('reservations.index')
@@ -113,4 +121,19 @@ class ReservationController extends Controller
         $rooms = Room::orderBy('name')->get();
         return view('reservations.index', compact('reservations', 'rooms', 'date'));
     }
+
+    public function cancel($id)
+    {
+        $reservation = Reservation::findOrFail($id);
+
+        if ($reservation->status === 'cancelada') {
+            return redirect()->back()->with('error', 'Reserva já está cancelada.');
+        }
+
+        $reservation->update(['status' => 'cancelada']);
+
+        return redirect()->route('reservations.index')
+            ->with('success', 'Reserva cancelada com sucesso!');
+    }
+
 }

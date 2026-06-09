@@ -17,12 +17,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
     
-    Route::get('/reservations', [ReservationController::class, 'index']);
-    Route::post('/reservations', [ReservationController::class, 'store']);
     Route::patch('/reservations/{id}/cancel', [ReservationController::class, 'cancel']);
-
-    
-    // Routes para Rooms (Salas)
     Route::resource('rooms', RoomController::class);
     
     // Routes para Responsibles

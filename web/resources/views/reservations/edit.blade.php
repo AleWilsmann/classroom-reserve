@@ -90,7 +90,9 @@
                     <label for="description">Descrição</label>
                     <textarea id="description" name="description">{{ old('description', $reservation->description) }}</textarea>
                 </div>
-
+                <div class="form-group">
+                    
+                </div>
                 <div class="actions">
                     <a href="{{ route('reservations.index') }}" class="btn-secondary">Cancelar</a>
                     <button type="submit" class="btn-primary">Atualizar Reserva</button>

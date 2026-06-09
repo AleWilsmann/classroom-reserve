@@ -15,11 +15,13 @@ class Room extends Model
         'location',
         'equipment',
         'description',
+        'status',
     ];
 
     protected $casts = [
         'equipment' => 'array',
     ];
+
 
     public function reservations()
     {

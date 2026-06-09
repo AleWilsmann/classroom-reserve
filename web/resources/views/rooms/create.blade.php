@@ -250,7 +250,13 @@
                         placeholder="Informações adicionais sobre a sala..."
                     >{{ old('description') }}</textarea>
                 </div>
-
+                <div class="form-group">
+                    <label for="status">Status *</label>
+                    <select id="status" name="status" required>
+                        <option value="ativa" {{ old('status') == 'ativa' ? 'selected' : '' }}>Ativa</option>
+                        <option value="inativa" {{ old('status') == 'inativa' ? 'selected' : '' }}>Inativa</option>
+                    </select>
+                </div>
                 <div class="form-actions">
                     <a href="{{ route('rooms.index') }}" class="btn btn-secondary">Cancelar</a>
                     <button type="submit" class="btn btn-primary">Criar Sala</button>

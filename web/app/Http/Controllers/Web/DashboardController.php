@@ -18,7 +18,7 @@ class DashboardController extends Controller
 
         $proximasReservas = Reservation::with(['room', 'responsible'])
             ->where('start_time', '>=', now())
-            ->whereIn('status', ['ativa', 'pendente'])
+            ->whereIn('status', ['pendente', 'ativa'])
             ->orderBy('start_time')
             ->limit(5)
             ->get();

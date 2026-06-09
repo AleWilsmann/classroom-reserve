@@ -87,7 +87,7 @@
                     <label for="description">Descrição</label>
                     <textarea id="description" name="description">{{ old('description') }}</textarea>
                 </div>
-
+                
                 <div class="actions">
                     <a href="{{ route('reservations.index') }}" class="btn-secondary">Cancelar</a>
                     <button type="submit" class="btn-primary">Salvar Reserva</button>

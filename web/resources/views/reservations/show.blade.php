@@ -52,7 +52,15 @@
             <div class="item">
                 <span class="label">Status</span>
                 <div class="value">
-                    <span class="badge badge-{{ $reservation->status }}">{{ ucfirst($reservation->status) }}</span>
+                    @php
+                    $badgeClass = match($reservation->status) {
+                        'ativa'     => 'badge-confirmed',
+                        'pendente'  => 'badge-pending',
+                        'cancelada' => 'badge-cancelled',
+                        default     => ''
+                    };
+                @endphp
+                <span class="badge {{ $badgeClass }}">{{ ucfirst($reservation->status) }}</span>
                 </div>
             </div>
 

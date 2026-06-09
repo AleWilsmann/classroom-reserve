@@ -216,6 +216,17 @@
                             </td>
                             <td class="actions">
                                 <a href="{{ route('reservations.edit', $reservation) }}" class="btn-secondary">Editar</a>
+                                @if($reservation->status !== 'cancelada')
+                                    <form action="/reservations/{{ $reservation->id }}/cancel" method="POST" style="display:inline;">
+                                        @csrf
+                                        @method('PATCH')
+                                        <button type="submit" class="btn-danger"
+                                            onclick="return confirm('Cancelar esta reserva?')"
+                                            style="background:#f59e0b;">
+                                            Cancelar
+                                        </button>
+                                    </form>
+                                @endif
                                 <form action="{{ route('reservations.destroy', $reservation) }}" method="POST" style="display:inline;">
                                     @csrf
                                     @method('DELETE')
